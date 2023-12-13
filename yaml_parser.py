@@ -12,6 +12,9 @@ start_time = time.monotonic()
 # dictionary storing all the domains and test outcome key : [count UP, count total]
 HEALTH_RESULT = {}
 
+"""
+Function checking the health status of all endpoints once the file is parsed
+"""
 def check_health(json_file):
     for i, data in enumerate(json_file):
         name = data[NAME]
@@ -48,12 +51,14 @@ def check_health(json_file):
                     response = requests.post(url, headers=headers, data=json.dumps(body))
 
         request_time = time.perf_counter() - request_start_time
+        # api response should be both within the range and not exceed the maximum allowed latency
         if 200 <= response.status_code <= 299 and request_time < MAX_LATENCY: 
             HEALTH_RESULT[url][0] += 1
             HEALTH_RESULT[url][1] += 1
         else:
             HEALTH_RESULT[url][1] += 1
         
+    # log to console after checking the file's entire endpoints
     for domain_name in HEALTH_RESULT.keys():
         percentage = round(100 * (HEALTH_RESULT[domain_name][0] / HEALTH_RESULT[domain_name][1]))
         log_message = domain_name + ' has ' + str(percentage) + '% availability percentage'
