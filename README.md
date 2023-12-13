@@ -1,5 +1,6 @@
 # fetch-rewards-take-home
 ## Instructions
+0. Either git clone the repository, or download the .zip file and unzip it. 
 1. Install Python if not exists on the local machine (version >= 3.9).
 https://www.python.org/downloads/
 2. Run command "pip3 install -r requirements.txt" inside the quote to install the dependencies related to this program.
